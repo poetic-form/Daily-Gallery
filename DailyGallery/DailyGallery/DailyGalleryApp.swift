@@ -11,7 +11,7 @@ import SwiftData
 @main
 struct DailyGalleryApp: App {
     var modelContainer: ModelContainer = {
-            let schema = Schema([ArtworkModel.self])
+            let schema = Schema([Artwork.self])
             let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
             
             do {
@@ -23,7 +23,7 @@ struct DailyGalleryApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
                 .modelContainer(modelContainer)
         }
     }
