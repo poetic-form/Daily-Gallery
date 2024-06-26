@@ -22,11 +22,9 @@ struct SelectPhotoView: View {
                 if let selectedImage {
                     Image(uiImage: selectedImage)
                         .resizable()
-                        .scaledToFit()
+                        .aspectRatio(1, contentMode: .fit)
                 } else {
-                    Image(systemName: "x.circle")
-                        .resizable()
-                        .scaledToFit()
+                    Text("Select photo")
                 }
                 Spacer()
                 ZStack(alignment: .topLeading) {

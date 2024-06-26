@@ -17,29 +17,32 @@ struct MainView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                ForEach(Array(zip(artworks.indices, artworks)), id: \.0) { index, item in
-                    VStack {
-                        Image(uiImage: UIImage(data: item.imageData)!)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 100, height: 100)
-                            .clipped()
-                        Text("NO.\(index + 1)")
-                        Text(item.title)
-                    }
-                    .onTapGesture {
-                        artwork = item
-                        modelContext.delete(artwork)
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
+                    ForEach(Array(zip(artworks.indices, artworks)), id: \.0) { index, item in
+                        VStack {
+                            Image(uiImage: UIImage(data: item.imageData)!)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 100, height: 100)
+                                .clipped()
+                            Text("NO.\(index + 1)")
+                            Text(item.title)
+                        }
+                        .onTapGesture {
+                            artwork = item
+                            modelContext.delete(artwork)
+                        }
                     }
                 }
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        isCreate.toggle()
-                    } label: {
-                        Image(systemName: "plus")
+                .navigationTitle("Daily Gallery")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            isCreate.toggle()
+                        } label: {
+                            Image(systemName: "plus")
+                        }
                     }
                 }
             }
