@@ -12,34 +12,35 @@ struct MainView: View {
     @Environment(\.modelContext) var modelContext
     @Query var artworks: [Artwork]
     
-    @State var isCreate: Bool = false
-    @State var artwork: Artwork = .init()
+    @State var showCreate: Bool = false
+    @State var artwork: Artwork?
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
                     ForEach(Array(zip(artworks.indices, artworks)), id: \.0) { index, item in
-                        VStack {
-                            Image(uiImage: UIImage(data: item.imageData)!)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 100, height: 100)
-                                .clipped()
-                            Text("NO.\(index + 1)")
-                            Text(item.title)
-                        }
-                        .onTapGesture {
+                        Button {
                             artwork = item
-                            modelContext.delete(artwork)
+                        } label: {
+                            VStack {
+                                Image(uiImage: UIImage(data: item.imageData)!)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 100, height: 100)
+                                    .clipped()
+                                Text("NO.\(index + 1)")
+                                Text(item.title)
+                            }
                         }
                     }
+                    .padding(.top, 10)
                 }
                 .navigationTitle("Daily Gallery")
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            isCreate.toggle()
+                            showCreate.toggle()
                         } label: {
                             Image(systemName: "plus")
                         }
@@ -47,9 +48,12 @@ struct MainView: View {
                 }
             }
         }
-        .fullScreenCover(isPresented: $isCreate, content: {
-            SelectPhotoView(isCreate: $isCreate)
+        .fullScreenCover(isPresented: $showCreate, content: {
+            SelectPhotoView(showCreate: $showCreate)
         })
+        .sheet(item: $artwork) { artwork in
+            DetailView(id: artwork.id)
+        }
     }
 }
 

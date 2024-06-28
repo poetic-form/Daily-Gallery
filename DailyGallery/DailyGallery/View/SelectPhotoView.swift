@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct SelectPhotoView: View {
-    @Binding var isCreate: Bool
+    @Binding var showCreate: Bool
     
     @State var selectedPhoto: PhotosPickerItem?
     @State var selectedImage: UIImage?
@@ -56,14 +56,14 @@ struct SelectPhotoView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        isCreate = false
+                        showCreate = false
                     } label: {
                         Image(systemName: "xmark")
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        ArtDescriptionView(artwork: $artwork, isCreate: $isCreate)
+                        ArtDescriptionView(artwork: $artwork, isCreate: $showCreate)
                     } label: {
                         Text("Done")
                     }
@@ -75,5 +75,5 @@ struct SelectPhotoView: View {
 }
 
 #Preview {
-    SelectPhotoView(isCreate: .constant(true))
+    SelectPhotoView(showCreate: .constant(true))
 }

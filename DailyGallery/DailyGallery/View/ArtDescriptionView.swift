@@ -89,5 +89,5 @@ struct ArtDescriptionView: View {
 }
 
 #Preview {
-    SelectPhotoView(isCreate: .constant(true))
+    SelectPhotoView(showCreate: .constant(true))
 }
